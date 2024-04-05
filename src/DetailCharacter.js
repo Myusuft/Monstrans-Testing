@@ -98,8 +98,6 @@ const DetailCharacter = () => {
                     </div>
                 </Card.Body>
             </Card>
-
-
         </div>
     );
 };
