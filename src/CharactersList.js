@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Badge from 'react-bootstrap/Badge';
 
 const CharactersList = () => {
   const [characters, setCharacters] = useState([]);
@@ -13,14 +15,25 @@ const CharactersList = () => {
 
   return (
     <div>
-      <h1>Characters List</h1>
-      <ul>
+      <h1 style={{ textAlign: 'center' }}>Characters List</h1>
+      <ListGroup>
         {characters.map(character => (
-          <li key={character.id}>
-            <Link to={`/detail/${character.id}`}>{character.name}</Link>
-          </li>
+          <ListGroup.Item
+            key={character.id}
+            className="d-flex justify-content-between align-items-start"
+            style={{ margin: '0 20px' }}
+          >
+            <div className="ms-2 me-auto">
+              <div className="fw-bold">
+                <Link to={`/detail/${character.id}`}>{character.name}</Link>
+              </div>
+            </div>
+            <Badge bg="primary" pill>
+              {character.status}
+            </Badge>
+          </ListGroup.Item>
         ))}
-      </ul>
+      </ListGroup>
     </div>
   );
 };
