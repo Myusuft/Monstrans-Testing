@@ -7,6 +7,7 @@ const DetailCharacter = () => {
   const { locations, updateLocations } = useLocationContext();
   const [character, setCharacter] = useState(null);
   const [locationName, setLocationName] = useState('');
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     fetch(`https://rickandmortyapi.com/api/character/${id}`)
@@ -15,8 +16,19 @@ const DetailCharacter = () => {
       .catch(error => console.log(error));
   }, [id]);
 
+  useEffect(() => {
+    const storedLocations = JSON.parse(localStorage.getItem('locations'));
+    if (storedLocations) {
+      setItems(storedLocations);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('locations', JSON.stringify(locations));
+    setItems(locations);
+  }, [locations]);
+
   const handleAssignLocation = () => {
-    // Lakukan proses assign karakter ke lokasi di sini
     if (!locationName) {
       alert('Please enter a unique location name.');
       return;
@@ -24,7 +36,6 @@ const DetailCharacter = () => {
 
     const existingLocation = locations.find(loc => loc.name === locationName);
     if (existingLocation) {
-      // Jika lokasi sudah ada, tambahkan karakter ke lokasi yang sudah ada
       const updatedLocations = locations.map(loc => {
         if (loc.name === locationName) {
           return {
@@ -36,7 +47,6 @@ const DetailCharacter = () => {
       });
       updateLocations(updatedLocations);
     } else {
-      // Jika lokasi belum ada, buat lokasi baru dan tambahkan karakter ke lokasi baru
       const newLocation = {
         id: locations.length + 1,
         name: locationName,
@@ -72,9 +82,11 @@ const DetailCharacter = () => {
       <div>
         <h2>Assigned Locations:</h2>
         <ul>
-          {locations.filter(loc => loc.characters.includes(character)).map(loc => (
-            <li key={loc.id}>{loc.name}</li>
-          ))}
+          {items
+            .filter(item => item.characters.find(char => char.id === character.id))
+            .map((item, index) => (
+              <li key={index}>{item.name}</li>
+            ))}
         </ul>
       </div>
     </div>

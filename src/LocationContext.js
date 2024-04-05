@@ -1,5 +1,3 @@
-// LocationContext.js
-
 import React, { createContext, useState, useContext } from 'react';
 
 const LocationContext = createContext();
@@ -10,7 +8,6 @@ export const LocationProvider = ({ children }) => {
   const [locations, setLocations] = useState([]);
 
   const updateLocations = (updatedLocation) => {
-    // Lakukan pembaruan lokasi sesuai kebutuhan
     setLocations(updatedLocation);
   };
 

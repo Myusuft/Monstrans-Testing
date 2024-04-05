@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocationContext } from './LocationContext';
 
 const CharacterByLocation = () => {
   const { locations } = useLocationContext();
+  const [storedLocations, setStoredLocations] = useState([]);
+
+  useEffect(() => {
+    
+    const storedData = JSON.parse(localStorage.getItem('locations'));
+    if (storedData) {
+      setStoredLocations(storedData);
+    }
+  }, []);
+
+  useEffect(() => {
+    
+    const storedData = JSON.parse(localStorage.getItem('locations'));
+    if (storedData) {
+      setStoredLocations(storedData);
+    }
+  }, [locations]); 
 
   return (
     <div>
@@ -10,7 +27,7 @@ const CharacterByLocation = () => {
       <div>
         <h2>Locations:</h2>
         <ul>
-          {locations.map(location => (
+          {storedLocations.map(location => (
             <li key={location.id}>
               {location.name}
               <ul>
